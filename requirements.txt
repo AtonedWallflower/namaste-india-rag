@@ -1,13 +1,18 @@
-beautifulsoup4==4.14.3
-chromadb==0.4.22
+# Core web app dependencies
+streamlit==1.29.0
+plotly==5.18.0
+python-dotenv==1.0.0
+requests==2.31.0
 fpdf==1.7.2
-groq==1.0.0
-numpy==2.4.2
-pandas==1.5.3
-plotly==6.5.2
-python-dotenv==1.2.1
-Requests==2.32.5
-selenium==4.15.0
-sentence_transformers==2.2.2
-streamlit==1.54.0
-webdriver_manager==4.0.2
+pillow==10.1.0
+markdown==3.5.1
+
+# LLM Integration
+groq==0.8.0
+httpx==0.24.1
+httpcore==0.17.3
+h11==0.14.0
+
+# These versions work with Python 3.13
+numpy==2.0.2
+pandas==2.2.3
