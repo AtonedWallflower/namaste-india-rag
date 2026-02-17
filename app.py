@@ -11,6 +11,29 @@ from dotenv import load_dotenv
 # Add this for production deployment
 from pathlib import Path
 
+# At the top of your app.py, after imports
+try:
+    from phase3_qa_system.rag_qa import RAGQASystem
+    from phase4_itinerary.itinerary_suggester import ItinerarySuggester
+    REAL_SYSTEMS = True
+    print("✅ Full RAG systems loaded")
+except ImportError as e:
+    print(f"⚠️ Running in limited mode: {e}")
+    REAL_SYSTEMS = False
+    
+    # Mock classes
+    class RAGQASystem:
+        def __init__(self, api_key=None):
+            self.api_key = api_key
+        def answer_question(self, question):
+            return f"**Demo Mode**\n\nYour question: '{question}'\n\nThe full system requires additional packages. This is a placeholder response."
+    
+    class ItinerarySuggester:
+        def __init__(self, api_key=None):
+            self.api_key = api_key
+        def generate_itinerary(self, preferences):
+            return f"**Demo Mode**\n\nYour request for {preferences.get('location', 'your trip')} would generate an itinerary here. The full system requires additional packages."
+
 # Ensure paths work in production
 BASE_DIR = Path(__file__).parent.absolute()
 sys.path.append(str(BASE_DIR))
