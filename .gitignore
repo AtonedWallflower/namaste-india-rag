@@ -1,0 +1,66 @@
+# Environment variables
+.env
+*.env
+.env.*
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual Environment
+venv/
+env/
+venv311/
+namaste-rag/
+namaste-rag2/
+.env/
+
+# ChromaDB
+chroma_db/
+chroma_db_*/
+
+# Generated Data
+phase1_scraping/all_tours_complete.json
+phase1_scraping/tour_data_cleaned.json
+phase1_scraping/tour_data.json
+phase1_scraping/categorized_tours.json
+phase1_scraping/data_statistics.json
+phase1_scraping/backup_tours_temp.json
+
+# Generated Itineraries
+phase4_itinerary/generated_itineraries/
+*.txt
+*.pdf
+itinerary_*.txt
+itinerary_*.pdf
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Logs
+logs/
+*.log
+
+# Notebooks (if any)
+.ipynb_checkpoints/
+*.ipynb
+
+# Project specific
+GROQ_API_KEY*
