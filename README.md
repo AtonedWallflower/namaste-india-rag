@@ -102,7 +102,7 @@ A comprehensive RAG (Retrieval-Augmented Generation) system that provides intell
 
 \# Clone the repository
 
-git clone https://github.com/yourusername/namaste-india-rag.git
+git clone https://github.com/AtonedWallflower/namaste-india-rag.git
 
 cd namaste-india-rag
 
