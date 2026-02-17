@@ -8,6 +8,13 @@ import plotly.express as px
 import plotly.graph_objects as go
 from dotenv import load_dotenv
 
+# Add this for production deployment
+from pathlib import Path
+
+# Ensure paths work in production
+BASE_DIR = Path(__file__).parent.absolute()
+sys.path.append(str(BASE_DIR))
+
 # Load environment variables from .env file FIRST
 load_dotenv()
 

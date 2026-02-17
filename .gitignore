@@ -18,9 +18,8 @@ env/
 venv311/
 namaste-rag/
 namaste-rag2/
-.env/
 
-# ChromaDB
+# Vector Database
 chroma_db/
 chroma_db_*/
 
@@ -31,6 +30,7 @@ phase1_scraping/tour_data.json
 phase1_scraping/categorized_tours.json
 phase1_scraping/data_statistics.json
 phase1_scraping/backup_tours_temp.json
+phase1_scraping/tours_by_category.json
 
 # Generated Itineraries
 phase4_itinerary/generated_itineraries/
@@ -44,7 +44,6 @@ itinerary_*.pdf
 .idea/
 *.swp
 *.swo
-*~
 
 # OS files
 .DS_Store
@@ -57,10 +56,3 @@ desktop.ini
 # Logs
 logs/
 *.log
-
-# Notebooks (if any)
-.ipynb_checkpoints/
-*.ipynb
-
-# Project specific
-GROQ_API_KEY*
