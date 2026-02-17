@@ -2,7 +2,7 @@
 title: Namaste India Trip
 emoji: 🧳
 colorFrom: red
-colorTo: orange
+colorTo: purple
 sdk: docker
 app_port: 7860
 pinned: false
