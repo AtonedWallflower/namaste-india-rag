@@ -1,0 +1,54 @@
+# Core Data Science & ML
+numpy==1.26.4
+pandas==2.1.4
+torch==2.1.0
+transformers==4.36.2
+sentence-transformers==2.2.2
+
+# Web Scraping
+requests==2.31.0
+beautifulsoup4==4.12.2
+scrapy==2.11.0
+selenium==4.15.0
+lxml==4.9.3
+webdriver-manager==4.0.1
+
+# Vector Database & Embeddings
+chromadb==0.4.22
+chroma-hnswlib==0.7.3
+onnxruntime==1.24.1
+tokenizers==0.15.2
+
+# LLM Integration
+groq==0.8.0
+httpx==0.24.1
+httpcore==0.17.3
+h11==0.14.0
+
+# RAG & LangChain
+langchain==0.0.340
+langchain-core==1.2.13
+langsmith==0.0.92
+
+# Web Framework
+streamlit==1.29.0
+plotly==5.18.0
+
+# PDF Generation
+fpdf==1.7.2
+
+# Utilities
+python-dotenv==1.0.0
+tqdm==4.66.1
+pydantic==2.6.4
+pydantic-core==2.20.1
+typing-extensions==4.15.0
+colorama==0.4.6
+certifi==2024.2.2
+idna==3.7
+sniffio==1.3.1
+anyio==3.7.1
+packaging==24.0
+pyyaml==6.0.1
+markdown==3.5.1
+pillow==10.2.0

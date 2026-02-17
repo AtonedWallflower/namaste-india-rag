@@ -23,7 +23,7 @@ namaste-rag2/
 chroma_db/
 chroma_db_*/
 
-# Generated Data
+# Generated Data - specific JSON files
 phase1_scraping/all_tours_complete.json
 phase1_scraping/tour_data_cleaned.json
 phase1_scraping/tour_data.json
@@ -34,7 +34,6 @@ phase1_scraping/tours_by_category.json
 
 # Generated Itineraries
 phase4_itinerary/generated_itineraries/
-*.txt
 *.pdf
 itinerary_*.txt
 itinerary_*.pdf
@@ -56,3 +55,9 @@ desktop.ini
 # Logs
 logs/
 *.log
+
+# DO NOT ignore these important files
+!requirements.txt
+!environment.yml
+!README.md
+!packages.txt
