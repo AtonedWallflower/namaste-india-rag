@@ -22,11 +22,9 @@ def enhance_tour_data(tour):
     
     # Clean up destinations
     if tour.get('destinations'):
-        # Handle both list and string formats
         if isinstance(tour['destinations'], list):
             tour['destinations'] = [d.strip() for d in tour['destinations'] if d.strip()]
         elif isinstance(tour['destinations'], str):
-            # Split by common separators
             text = tour['destinations']
             if '→' in text:
                 tour['destinations'] = [d.strip() for d in text.split('→')]
@@ -47,7 +45,6 @@ def enhance_tour_data(tour):
     if not tour.get('duration') or tour['duration'] == '':
         tour['duration'] = "Duration varies by package"
     else:
-        # Clean up duration text
         tour['duration'] = re.sub(r'\s+', ' ', tour['duration'])
     
     # Ensure highlights is present
@@ -116,7 +113,6 @@ def save_statistics(tours):
     with_duration = sum(1 for t in tours if t.get('duration') and t['duration'] != "Duration varies by package")
     with_highlights = sum(1 for t in tours if t.get('highlights') and t['highlights'] != ["Customizable tour package - contact for details"])
     
-    # Theme distribution
     theme_counts = {}
     for tour in tours:
         theme = tour.get('theme', 'General')
@@ -160,7 +156,6 @@ def display_sample_tours(tours, count=15):
     print(f"\n Sample of {count} cleaned tours:")
     print("="*80)
     
-    # Filter to show actual tours (not headers)
     actual_tours = [t for t in tours if any(indicator in t['name'] for indicator in 
                    ['Yatra', 'Tour', 'Package', 'Helicopter', 'Honeymoon'])]
     
@@ -206,109 +201,7 @@ def intelligent_clean():
     
     print(f"\n Loaded {len(tours)} raw entries from {file_used}")
     
-    # === ENHANCED DUPLICATE DETECTION USING COMPLETENESS SCORE ===
-    print("\n[INFO] Performing enhanced duplicate detection...")
-    unique_tours = {}
-    duplicates_found = 0
-    
-    for tour in tours:
-        name = tour.get('name', '').strip()
-        
-        # Skip empty names
-        if not name or len(name) < 5:
-            continue
-        
-        # Check if we've seen this name before
-        if name in unique_tours:
-            duplicates_found += 1
-            # Keep the version with higher completeness score
-            existing_score = calculate_completeness(unique_tours[name])
-            new_score = calculate_completeness(tour)
-            if new_score > existing_score:
-                unique_tours[name] = tour  # Replace with better version
-        else:
-            unique_tours[name] = tour
-    
-    print(f"[INFO] Found {duplicates_found} duplicate names")
-    print(f"[INFO] After deduplication: {len(unique_tours)} unique tours")
-    
-    # Replace tours with deduplicated list
-    tours = list(unique_tours.values())
-    # === END OF ENHANCED DUPLICATE DETECTION ===
-    
-    # Define patterns for UI noise (things that are definitely not tours)
-    ui_noise_patterns = [
-        r'^India Tour Packages \| Ministry Approved \| Namaste India Trip$',
-        r'^Ministry of Tourism,$',
-        r'^MENUMENUIndia Tours$',
-        r'^International Tours$',
-        r'^Group ToursHelicopter ToursPilgrimage ToursBuddhist ToursHoneymoon ToursCustomer Center$',
-        r'^Top Trending Tour Packages$',
-        r'^Our Popular India Tour Packages$',
-        r'^Book International Tour Packages From India$',
-        r'^View Tour$',
-        r'^View More Packages$',
-        r'^Choose Your Style of Tour$',
-        r'^Recognized by Ministry',
-        r'^Chardham Yatra from Delhi$',
-        r'^Chardham Yatra by Helicopter$',
-        r'^Uttar Pradesh Tour Package$',
-        r'^Madhya Pradesh Tour$',
-        r'^Sri Lanka Ramayana Tour$',
-        r'^Singapore Malaysia Tour$',
-        r'^Thailand Tour Package$',
-        r'^Dubai Tour Package$',
-        r'^Bali Honeymoon Tour$',
-        r'^Ujjain Omkareshwar Tour$',
-        r'^Jagannath Puri Tour$',
-        r'^Dwarka Somnath Tour$',
-        r'^India Tour Packages$',
-        r'^Uttarakhand Tour Packages$',
-        r'^Kashmir Tour Packages$',
-        r'^Himachal Tour Packages$',
-        r'^Uttar Pradesh Tour Packages$',
-        r'^Rajasthan Tour Packages$',
-        r'^Madhya Pradesh Tour Packages$',
-        r'^Goa Tour Packages$',
-        r'^Tamil Nadu Tour Packages$',
-        r'^Kerala Tour Packages$',
-        r'^Orissa Tour Packages$',
-        r'^Delhi Tour Packages$',
-        r'^Gujarat Tour Packages$',
-        r'^International Tour Packages$',
-        r'^Europe Tour Packages$',
-        r'^Asia Tour Packages$',
-        r'^Sri Lanka Tour Packages$',
-        r'^Dubai Tour Packages$',
-        r'^Bali Tour Packages$',
-        r'^Thailand Tour Packages$',
-        r'^Singapore Tour Packages$',
-        r'^Bhutan Tour Packages$',
-        r'^Nepal Tour Packages$',
-        r'^Malaysia Tour Packages$',
-        r'^Egypt Tour Packages$',
-        r'^Hong Kong Tour Packages$',
-        r'^Trending Tour Packages$',
-        r'^Pilgrimage Tour Packages$',
-        r'^Honeymoon Tour Packages$',
-        r'^Adventure Tours$',
-        r'^Cruise Tours$',
-        r'^Private Jet Tours$',
-        r'^Speciality Tour$',
-        r'^India Group Tour',
-        r'^Fixed Departure',
-        r'^Luxury Helicopter',
-        r'^Helicopter Packages',
-        r'^Buddhist Pilgrimage Tour',
-        r'^10\+',
-        r'^Q\d+:',
-        r'^FAQs?',
-        r'^Destinations ➝',
-        r'^Popular',
-        r'^Tour Cost\s*:',
-    ]
-    
-    # Keywords that indicate a real tour (keep these)
+    # === TOUR INDICATORS LIST (Your existing comprehensive list) ===
     tour_indicators = [
         'Yatra', 'Tour', 'Package', 'Darshan', 'Helicopter', 
         'Temple', 'Pilgrimage', 'Heritage', 'Wildlife', 'Safari',
@@ -328,10 +221,83 @@ def intelligent_clean():
         'Bangkok', 'Koh Samui', 'Colombo', 'Sigiriya', 'Kandy',
         'Nuwara Eliya', 'Beruwala', 'Abu Dhabi', 'Kuala Lumpur',
         'Thimphu', 'Paro', 'Vaishno Devi', 'Manimahesh', 'Haridwar',
-        'Rishikesh', 'Allahabad', 'Ayodhya', 'Gaya', 'Bodhgaya',
-        'Sarnath', 'Kushinagar', 'Lumbini', 'Sravasti', 'Rajgir',
-        'Nalanda', 'Ajanta', 'Ellora', 'Ooty', 'Kashmir', 'Gulmarg',
-        'Pahalgam', 'Sonmarg', 'Baltal', 'Neelgrath'
+        'Rishikesh', 'Allahabad', 'Gaya', 'Sarnath', 'Kushinagar',
+        'Lumbini', 'Sravasti', 'Rajgir', 'Nalanda', 'Ajanta', 'Ellora',
+        'Ooty', 'Kashmir', 'Gulmarg', 'Pahalgam', 'Sonmarg', 'Baltal', 
+        'Neelgrath', 'Amritsar', 'Golden Temple', 'Wagah', 'Ranthambore',
+        'Corbett', 'Kaziranga', 'Gir', 'Periyar', 'Munnar', 'Alleppey',
+        'Kumarakom', 'Kochi', 'Varkala', 'Kovalam', 'Pondicherry',
+        'Mahabalipuram', 'Kanchipuram', 'Tirupati', 'Mysore', 'Coorg',
+        'Hampi', 'Badami', 'Aihole', 'Pattadakal', 'Goa', 'Mumbai',
+        'Pune', 'Aurangabad', 'Nagpur', 'Indore', 'Bhopal', 'Gwalior',
+        'Khajuraho', 'Orchha', 'Jhansi', 'Agra', 'Mathura', 'Vrindavan',
+        'Lucknow', 'Allahabad', 'Varanasi', 'Sarnath', 'Bodhgaya',
+        'Rajgir', 'Nalanda', 'Patna', 'Gaya', 'Kolkata', 'Darjeeling',
+        'Gangtok', 'Pelling', 'Lachen', 'Lachung', 'Guwahati', 'Shillong',
+        'Cherrapunji', 'Kaziranga', 'Majuli', 'Jorhat', 'Dibrugarh',
+        'Tawang', 'Bomdila', 'Dirang', 'Ziro', 'Itanagar', 'Kohima',
+        'Mokokchung', 'Tuophema', 'Khonoma', 'Imphal', 'Ukhrul',
+        'Moirang', 'Keibul Lamjao', 'Silchar', 'Haflong', 'Agartala',
+        'Udaipur', 'Dharmanagar', 'Kailashahar', 'Aizawl', 'Lunglei',
+        'Champhai', 'Serchhip', 'Lawngtlai', 'Saiha', 'Kolasib',
+        'Mamit', 'Hnahthial', 'Khawzawl', 'Saitual'
+    ]
+    
+    # === ENHANCED DUPLICATE DETECTION ===
+    print("\n[INFO] Performing enhanced duplicate detection...")
+    unique_tours = {}
+    duplicates_found = 0
+    
+    for tour in tours:
+        name = tour.get('name', '').strip()
+        
+        if not name or len(name) < 5:
+            continue
+        
+        if name in unique_tours:
+            duplicates_found += 1
+            existing_score = calculate_completeness(unique_tours[name])
+            new_score = calculate_completeness(tour)
+            if new_score > existing_score:
+                unique_tours[name] = tour
+        else:
+            unique_tours[name] = tour
+    
+    print(f"[INFO] Found {duplicates_found} duplicate names")
+    print(f"[INFO] After deduplication: {len(unique_tours)} unique tours")
+    tours = list(unique_tours.values())
+    
+    # === UI NOISE PATTERNS (Only remove genuine UI elements) ===
+    ui_noise_patterns = [
+        r'^India Tour Packages \| Ministry Approved \| Namaste India Trip$',
+        r'^Ministry of Tourism,$',
+        r'^MENUMENUIndia Tours$',
+        r'^Group ToursHelicopter ToursPilgrimage ToursBuddhist ToursHoneymoon ToursCustomer Center$',
+        r'^View Tour$',
+        r'^View More Packages$',
+        r'^Choose Your Style of Tour$',
+        r'^Recognized by Ministry',
+        r'^Book International Tour Packages From India$',
+        r'^Our Popular India Tour Packages$',
+        r'^Top Trending Tour Packages$',
+        r'^Trending Tour Packages$',
+        r'^Q\d+:',
+        r'^FAQs?',
+        r'^Popular',
+        r'^Destinations ➝',
+        r'^10\+',
+        r'^Tour Cost\s*:',
+        r'^Pilgrimage Tour Packages$',
+        r'^Honeymoon Tour Packages$',
+        r'^Adventure Tours$',
+        r'^Cruise Tours$',
+        r'^Private Jet Tours$',
+        r'^Speciality Tour$',
+        r'^India Group Tour$',
+        r'^Fixed Departure$',
+        r'^Luxury Helicopter$',
+        r'^Helicopter Packages$',
+        r'^Buddhist Pilgrimage Tour$',
     ]
     
     cleaned_tours = []
@@ -346,7 +312,7 @@ def intelligent_clean():
         if not name or len(name) < 5:
             continue
         
-        # Skip if matches UI noise patterns
+        # Skip if matches UI noise patterns (genuine UI elements only)
         if any(re.match(pattern, name, re.I) for pattern in ui_noise_patterns):
             continue
         
@@ -354,14 +320,14 @@ def intelligent_clean():
         if name.isupper() or name.isdigit():
             continue
         
-        # Skip duplicates (though we already did enhanced dedup, this is extra safety)
+        # Skip duplicates (extra safety)
         if name in seen_names:
             continue
         
-        # Check if it's likely a real tour
+        # Check if it's a real tour using your comprehensive tour_indicators list
         is_real_tour = False
         
-        # Check for tour indicators in name
+        # Check for tour indicators in name (using your existing list)
         if any(indicator.lower() in name.lower() for indicator in tour_indicators):
             is_real_tour = True
         
@@ -377,14 +343,24 @@ def intelligent_clean():
         if tour.get('url') and ('tour' in tour['url'].lower() or 'package' in tour['url'].lower()):
             is_real_tour = True
         
+        # SPECIAL CASE: State/Country pages that might be umbrella packages
+        # These contain tour indicators but might be category pages
+        is_umbrella = False
+        if ('Tour Packages' in name or 'Tour Package' in name) and len(name.split()) <= 4:
+            # This might be a category page like "Rajasthan Tour Packages"
+            # But we still want to keep it as a reference
+            is_umbrella = True
+            is_real_tour = True
+            tour['is_umbrella_package'] = True
+        
         if is_real_tour:
             # Clean up the tour data
             cleaned_tour = enhance_tour_data(tour)
             
             # Final name cleanup
             cleaned_name = cleaned_tour.get('name', '')
-            cleaned_name = re.sub(r'\s+', ' ', cleaned_name)  # Remove extra spaces
-            cleaned_name = re.sub(r'^\d+\+?\s*', '', cleaned_name)  # Remove leading numbers
+            cleaned_name = re.sub(r'\s+', ' ', cleaned_name)
+            cleaned_name = re.sub(r'^\d+\+?\s*', '', cleaned_name)
             cleaned_tour['name'] = cleaned_name
             
             seen_names.add(cleaned_name)
