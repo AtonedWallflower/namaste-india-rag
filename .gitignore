@@ -25,7 +25,6 @@ chroma_db_*/
 
 # Generated Data - specific JSON files
 phase1_scraping/all_tours_complete.json
-phase1_scraping/tour_data_cleaned.json
 phase1_scraping/tour_data.json
 phase1_scraping/categorized_tours.json
 phase1_scraping/data_statistics.json

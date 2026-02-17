@@ -1,0 +1,57 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment
+venv/
+env/
+.env/
+.venv/
+condaenv.*
+namaste-rag/
+namaste-rag2/
+
+# Local data (don't include in build)
+chroma_db/
+phase1_scraping/all_tours_complete.json
+phase1_scraping/backup_tours_temp.json
+phase1_scraping/tours_by_category.json
+phase4_itinerary/generated_itineraries/
+*.pdf
+*.txt
+itinerary_*.txt
+itinerary_*.pdf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Environment
+.env
+*.env
+.env.*

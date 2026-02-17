@@ -11,6 +11,45 @@ from dotenv import load_dotenv
 # Add this for production deployment
 from pathlib import Path
 
+
+# Add this at the bottom of your vector_store.py file
+
+def ensure_database_exists():
+    """Build the vector database if it doesn't exist"""
+    import os
+    import json
+    
+    # Check if database already exists
+    if os.path.exists('./chroma_db') and len(os.listdir('./chroma_db')) > 0:
+        print("✅ Vector database already exists")
+        return
+    
+    print("🔨 Building vector database from cleaned data...")
+    
+    # Check if cleaned data exists
+    if not os.path.exists('phase1_scraping/tour_data_cleaned.json'):
+        print("❌ No cleaned data found. Please ensure tour_data_cleaned.json exists.")
+        return
+    
+    # Load and index the data
+    try:
+        from phase2_database.vector_store import VectorDatabase
+        import json
+        
+        with open('phase1_scraping/tour_data_cleaned.json', 'r', encoding='utf-8') as f:
+            tours = json.load(f)
+        
+        print(f"📊 Loaded {len(tours)} tours")
+        
+        db = VectorDatabase()
+        db.index_tours(tours)
+        print("✅ Vector database built successfully")
+        
+    except Exception as e:
+        print(f"❌ Error building database: {e}")
+
+if __name__ == "__main__":
+    ensure_database_exists()
 # At the top of your app.py, after imports
 try:
     from phase3_qa_system.rag_qa import RAGQASystem
