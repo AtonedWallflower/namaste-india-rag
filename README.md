@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 \# 🧳 Namaste India Trip - AI Travel Assistant
 
 
@@ -114,3 +115,15 @@ conda env create -f environment.yml
 
 conda activate namaste-rag
 
+=======
+---
+title: Namaste India Trip
+emoji: 🏆
+colorFrom: purple
+colorTo: gray
+sdk: docker
+pinned: false
+---
+
+Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+>>>>>>> aaaf857801e4166dc7459b2c41211449ceecf133
